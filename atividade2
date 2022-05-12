@@ -1,0 +1,44 @@
+'''
+Aluna: Débora Ferreira de Oliveira
+RA: 22051517
+
+-----------------------------------------------Resolva o exercício usando a linguagem Python e o SQLite-----------------------------------------------
+
+1. Desenvolva um programa em Python e crie uma base de dados:
+    -crie uma tabela com uma chave primária
+    -crie pelo menos uma coluna obrigatória
+    -crie pelo menos uma coluna opcional.
+
+2. Implemente um programa em Python para inserir dados na tabela criada.
+
+3. Faça um programa em Python para consultar os registros inseridos na tabela criada. Mostre os registros na vertical
+
+Obs.: crie uma tabela e colunas diferentes das desenvolvidas nas aulas.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+'''
+
+#Exercício 1
+
+import sqlite3
+
+database = 'BD_rh' #Cria banco de dados Rh
+conexao = sqlite3.connect(database)
+cur = conexao.cursor()
+sql = ''' create table tb_funcionario (matricula text primary key, nome text not null) '''  # Cria a tabela tb_funcionario dentro da base de dados BD_rh e a chave primaria matrícula.
+
+
+#Exercício 2
+
+sql1 = "insert into tb_funcionario(matricula, nome) values(?, ?)" #Inserir as culunas matrícula e nome na tabela funcionário
+
+v_matricula = input('Matricula: ') #Recebe matrícula
+v_nome = input('Nome: ') #Recebe nome
+
+cur.execute(sql1, (v_matricula, v_nome))
+
+
+#Exercício 3
+
+for tabela in cur.execute('SELECT * FROM tb_funcionario ORDER BY matricula '):
+    print(tabela) #Mostrar a tabela funcionário
