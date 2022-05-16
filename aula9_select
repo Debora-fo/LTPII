@@ -1,0 +1,47 @@
+import mysql.connector
+
+conexao = mysql.connector.connect(user='root', password='uniceub', host='127.0.0.1', database='db_empresa')
+
+print('Conexão: ', conexao)
+cursor = conexao.cursor()
+
+#select
+# sql = "select * from tb_funcionario"
+
+#--------------------------escolher onde selecionar com where------------------------------------------------------
+# idt =1
+#sql = "select * from tb_funcionario where idt = 1"
+
+#idt>1
+#sql = "select * from tb_funcionario where idt > 1"
+
+#nome = "Alice"
+#sql = "select * from tb_funcionario where nome = 'Alice' "
+
+#salario >1800
+sql = "select * from tb_funcionario where salario >1800"
+#-----------------------------------------------------------------------------------------------------------------
+
+
+cursor.execute(sql)
+l_registros = cursor.fetchall()
+
+print("Registros na tabela: ", cursor.rowcount)
+print("- List of tuplas:")
+
+#mostrar registros em linha
+#print(l_registros)
+
+#mostrar os valores em culunas usando notação de vetor
+# for row in l_registros:
+#       print(row)
+
+# mostrar os valores em colunas usando o nome das colunas
+for idt, nome, salario in l_registros:
+      print("\nIDF:", idt,"\nNome:", nome, "\nSalário:", salario)
+
+conexao.commit()
+cursor.close()
+conexao.close()
+
+print("\n Conexão fechada")
