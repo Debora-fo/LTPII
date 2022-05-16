@@ -11,16 +11,6 @@ sql= "delete from tb_funcionario where idt = 3"
 cursor.execute(sql)
 conexao.commit()
 l_registros = cursor.fetchall()
-#------------------------------------------------------------------------------------------------------------
-
-
-print("Registros na tabela: ", cursor.rowcount)
-print("- List of tuplas:")
-# mostrar os valores em colunas usando o nome das colunas
-for idt, nome, salario in l_registros:
-      print("\nIDF:", idt,"\nNome:", nome, "\nSalário:", salario)
-
-conexao.commit()
 cursor.close()
 conexao.close()
 
