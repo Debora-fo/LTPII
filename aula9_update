@@ -1,0 +1,17 @@
+import mysql.connector
+
+conexao = mysql.connector.connect(user='root', password='uniceub', host='127.0.0.1', database='db_empresa')
+
+print('Conexão: ', conexao)
+cursor = conexao.cursor()
+
+#update
+sql = "update tb_funcionario set salario = 4200.00 where nome = 'José'"
+
+cursor.execute(sql)
+conexao.commit()
+l_registros = cursor.fetchall()
+cursor.close()
+conexao.close()
+
+print("\n Conexão fechada")
