@@ -1,0 +1,41 @@
+'''
+PARA INSTALAR O MYSQL NO PYTHON:
+Menu:
+    File
+    - settings
+Project: NomeProjeto
+    - Python Interpreter
+Canto superior esquerdo     [+]
+Avaiable packeges: ...
+    mysql-connector-python
+'''
+
+import mysql.connector                                                                                        #IMPORTAR O MY SQL
+
+def cria_conexao():
+      conexao = mysql.connector.connect(user='root', password='uniceub', host='127.0.0.1', database='db_loja') #DATABASE VAZIO PARA CRIAR EM SEGUIDA UMA NOVA
+      print('Conexão:', conexao)                                                                               #TESTE PARA VER SE CONECTOU
+      cursor = conexao.cursor()
+      return conexao
+
+def fecha_conexao(con):
+      con.close()
+      print("\nConexão fechada.")
+
+def qtd_registros(con):
+      cursor = con.cursor()
+      sql = '''select * from tb_produto'''
+      cursor.execute(sql)
+      cursor.fetchall()
+      print("Registros na tabela: ", cursor.rowcount)
+      cursor.close()
+
+def mostra_registros(con):
+      cursor = con.cursor()
+      sql = "select * from tb_produto"
+      cursor.execute(sql)
+      l_registros = cursor.fetchall()
+      print('Registros: ')
+      for identificacao, nome, preco, validade in l_registros:
+            print(f'Identificacao {identificacao}: {nome}, R$ {preco}, {validade}')
+      cursor.close()
