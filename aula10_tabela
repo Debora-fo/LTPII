@@ -1,0 +1,81 @@
+'''
+PARA INSTALAR O MYSQL NO PYTHON:
+Menu:
+    File
+    - settings
+Project: NomeProjeto
+    - Python Interpreter
+Canto superior esquerdo     [+]
+Avaiable packeges: ...
+    mysql-connector-python
+'''
+
+
+'''
+#-------------------------------------------------------------------------------------------------
+import mysql.connector                                                                            #IMPORTAR O MY SQL
+conexao = mysql.connector.connect(user='root', password='uniceub', host='127.0.0.1', database='') #DATABASE VAZIO PARA CRIAR EM SEGUIDA UMA NOVA
+print('Conexão:', conexao)                                                                        #TESTE PARA VER SE CONECTOU
+cursor = conexao.cursor()                                                                         #CRIA O CURSOR PARA EXECUTAR OS COMANDOS SQL
+sql = "CREATE DATABASE if not exists db_loja"                                                     #CRIAR BASE DE DADOS
+cursor.execute(sql)                                                                               #EXECUTAR
+#-------------------------------------------------------------------------------------------------
+'''
+
+
+#-------------------------------------------------------------------------------------------------
+#Importar a função de criar base de dados
+from aula10_funcoes import *
+conexao = cria_conexao()
+cursor = conexao.cursor()
+
+#Criar tabela
+sql = "CREATE TABLE IF NOT EXISTS tb_produto(" \
+      "identificador INT NOT NULL AUTO_INCREMENT, " \
+      "nome VARCHAR(45) UNIQUE NOT NULL, " \
+      "preco DECIMAL(9,2) NOT NULL, " \
+      "validade DATE NULL, " \
+      "PRIMARY KEY (identificador))"
+
+cursor.execute(sql)                                                                               #EXECUTAR
+#-------------------------------------------------------------------------------------------------
+
+
+'''
+#-------------------------------------------------------------------------------------------------
+#Colocar produtos na tabela manualmente:
+
+sql = "insert into tb_produto(nome, preco, validade) values ('shampoo', 25.00, '2050-12-25')," \
+      "('arroz 1', 30.00, '2021-11-11')"
+cursor.execute(sql)                                                                               #EXECUTAR
+conexao.commit()                                                                                  #sempre dar commit!!!
+
+qtd_registros(conexao)                                                                            #Chama a função quantidade de registros do arquivo aula10_funcoes
+#-------------------------------------------------------------------------------------------------
+'''
+
+'''
+#-------------------------------------------------------------------------------------------------
+#Para o usuário inserir os valores:
+sql = "insert into tb_produto(nome, preco, validade) values(%s, %s, %s)"
+a_nome = input('Nome: ')
+a_preco = float(input('Preço: '))
+a_data = input('Data: aaaa-mm-dd')
+cursor.execute(sql, (a_nome,a_preco, a_data))
+conexao.commit()
+#-------------------------------------------------------------------------------------------------
+'''
+
+
+#-------------------------------------------------------------------------------------------------
+#Apagar o arquivo
+sql = "delete from tb_produto where identificador = 17 "
+cursor.execute(sql)
+conexao.commit()
+#-------------------------------------------------------------------------------------------------
+
+
+mostra_registros(conexao)                                                                         #Chama a função mostra registros do arquivo aula10_funcoes
+
+cursor.close()                                                                                    #Fechar o cursor
+fecha_conexao(conexao)                                                                            #Chama a função fecha conexao do arquivo aula10_funcoes
