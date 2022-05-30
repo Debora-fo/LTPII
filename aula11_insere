@@ -1,0 +1,25 @@
+""" ---Alterações:
+Inserir dados
+"""
+
+#CODIGO COM ERRO!!!!!!!!!!!
+
+from aula11_funcoes import *
+
+try:
+    conexao = cria_conexao()
+    cursor = conexao.cursor()
+    qtd_registros_cargo(conexao)
+    sql = "insert into td_cargo (nome) values (%s)"
+    a_nome = input('Nome do cargo: ')
+    cursor.execute(sql, (a_nome, ))
+    conexao.commit()
+    print('Registros inseridos: ', cursor.rowcount)
+    qtd_registros_cargo(conexao)
+
+except Error as erro:
+    print('Erro no insert.\n', erro)
+
+else:
+    cursor.close()
+    fecha_conexao(conexao)
