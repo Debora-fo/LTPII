@@ -1,0 +1,38 @@
+from mysql.connector import connect, Error
+try:
+      conexao = connect(host='localhost',
+                        user='root',
+                        password='uniceub',
+                        database='')
+      print('Conexão:', conexao)
+      db_info = conexao.get_server_info()                                 #pega informações do servidor
+      print('Connected to MySQL Server version:', db_info)
+      cursor = conexao.cursor()                                           #cria o cursor para executar os comandos sql
+      cursor.execute("SHOW DATABASES")                                    #mostra os databases existentes
+      print('-Show databases:')
+      for x in cursor:
+            print(x,x[0])
+      print('Qtd. databases:', cursor.rowcount)
+      sql = "CREATE DATABASE if not exists db_cadastro"                   #db_cadastro é o nome da database
+      cursor.execute(sql)
+      cursor.execute("SHOW DATABASES")
+      registros=cursor.fetchall()                                         #lista de tuplas com os databases
+      print('-Show databases:')
+      print(registros) #mostra na horizontal
+      print('Qtd. databases:', cursor.rowcount)
+except Error as erro:                                                     #executa se ocorreu algum erro
+      print('Erro na conexão ou create database.\n', erro)
+else:
+      cursor.close()
+      conexao.close()
+      print('\nConexão fechada.')
+
+""" ---Alterações:
+a. Verifique no MySQL Workbench
+b. Force um erro no código
+c. Na base de dados dc_cadastro modele os dados de um empregado com estas características:
+   nome do empregado, data de nascimento, gênero e nome do cargo.
+
+Criar arquivo aula11_funcoes
+"""
+
