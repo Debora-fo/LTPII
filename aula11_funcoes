@@ -1,0 +1,39 @@
+from mysql.connector import connect, Error                       #outra maneira de importar o mysql ao invés de usar import mysql.connector
+
+def cria_conexao():
+    try:
+        conexao = connect(host='localhost',
+                          user='root',
+                          password='uniceub',
+                          database='db_cadastro')
+        print('Conexão:', conexao)
+    except Error as erro:                                        # executa se ocorreu algum erro no bloco try
+        print('Erro na conexão com o database.\n', erro)
+    else:                                                        # executa se não ocorreu algum erro no bloco try
+        return conexao
+
+def fecha_conexao(con):
+    con.close()
+    print('\nConexão Fechada.')
+
+def qtd_registros_cargo(con):
+    try:
+        cursor = con.cursor()
+        sql = '''select * from td_cargo'''
+        cursor.execute(sql)
+        print("Cargo - Qtd. registros: ", cursor.rowcount)
+    except Error as erro:
+        print('Erro em qtd_registros_cargo.\n', erro)
+    else:
+        cursor.close()
+
+""" ---Alterações:
+
+Criar arquivo aula11_criar_tabela
+
+c. Na base de dados dc_cadastro modele os dados de um empregado com estas características:
+   nome do empregado, data de nascimento, gênero e nome do cargo.
+
+td_cargo: cargo (primary key)
+tb_empregado: id(primary key), empregado, nascimento, genero, cargo(chave extrangeira)
+"""
