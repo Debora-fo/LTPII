@@ -1,0 +1,57 @@
+""" ---Alterações:
+c. Na base de dados dc_cadastro modele os dados de um empregado com estas características:
+   nome do empregado, data de nascimento, gênero e nome do cargo.
+
+td_cargo: cargo (primary key)
+tb_empregado: id(primary key), empregado, nascimento, genero, cargo(chave extrangeira)
+"""
+from aula11_funcoes import *
+try:
+    conexao = cria_conexao()
+    cursor = conexao.cursor()
+
+    sql = "show tables"
+    cursor.execute(sql)
+
+    for x in cursor:
+        print(x[0])
+        print('Qtd. tables:', cursor.rowcount)
+
+    sql_cargo = "CREATE TABLE IF NOT EXISTS td_cargo(" \
+            "idt INT NOT NULL AUTO_INCREMENT," \
+            "nome VARCHAR(45) UNIQUE NOT NULL," \
+            "PRIMARY KEY (idt))"
+    cursor.execute(sql_cargo)
+    cursor.execute(sql)
+
+    print('-Tabelas:')
+    for x in cursor:
+        print(x[0])
+    print('Qtd. tables:', cursor.rowcount)
+
+    sql_empregado = "CREATE TABLE IF NOT EXISTS tb_empregado(" \
+                "matricula INT NOT NULL AUTO_INCREMENT," \
+                "nome VARCHAR(45) NOT NULL," \
+                "dta_nascimento date NULL," \
+                "genero enum('M', 'F') NOT NULL," \
+                "cod_cargo int NOT NULL," \
+                "PRIMARY KEY(matricula)," \
+                "FOREIGN KEY(cod_cargo) REFERENCES td_cargo(idt))"
+    cursor.execute(sql_empregado)
+    cursor.execute(sql)
+
+    print('-Tabelas:')
+    for x in cursor:
+        print(x[0])
+    print('Qtd. tables:', cursor.rowcount)
+
+except Error as erro:
+    print('Erro no create table.\n', erro)
+else:
+    cursor.close()
+
+""" ---Alterações:
+Criar arquivo aula11_insere
+
+Inserir dados
+"""
